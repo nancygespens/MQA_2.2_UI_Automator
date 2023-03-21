@@ -110,7 +110,42 @@ class ChangeTextTest {
         assertEquals(result, textToSet)
     }
 
-}
+    @Test
+    fun setEmptyString() {
+        val packageName = MODEL_PACKAGE
+        waitForPackage(packageName)
+        val startedText = device.findObject(By.res(packageName, "textToBeChanged")).text
+        var textEmptyString = ""
 
+        device.findObject(By.res(packageName, "userInput")).text = textEmptyString
+        device.findObject(By.res(packageName, "buttonChange")).click()
+
+        var result = device.findObject(By.res(packageName, "textToBeChanged")).text
+        assertEquals(result, startedText)
+
+        textEmptyString = "      "
+
+        device.findObject(By.res(packageName, "userInput")).text = textEmptyString
+        device.findObject(By.res(packageName, "buttonChange")).click()
+
+        result = device.findObject(By.res(packageName, "textToBeChanged")).text
+        assertEquals(result, startedText)
+    }
+
+    @Test
+    fun testButtonActivity() {
+        val packageName = MODEL_PACKAGE
+        var newText = "Hello, Netology!"
+        waitForPackage(packageName)
+
+        device.findObject(By.res(packageName, "userInput")).text = newText
+        device.findObject(By.res(packageName, "buttonActivity")).click()
+        Thread.sleep(3000)
+
+        val result = device.findObject(By.res(packageName, "text")).text
+        assertEquals(result, newText)
+    }
+
+}
 
 
